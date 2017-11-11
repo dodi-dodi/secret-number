@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Dorota Durlej</h1>
+<h2>Zadanie</h2>
+
+<ol>
+    <li>Proszę przygotować aplikację typu klient - serwer. Jako serwer proszę użyć NodeJS.</li>
+    <li>Możliwe technologie do wykorzystania: HTML/CSS/JS (oraz biblioteki i frameworki zbudowane w JS)</li>
+    <li>Przy odpaleniu strony serwer ma wygenerować losową liczbę z zakresu 1 – 10000, zapamiętać ją ale nie podawać
+        klientowi.</li>
+    <li>Aplikacja po stronie klienta (przeglądarki) ma za zadanie odgadnąć liczbę która została wygenerowana i jest
+        dostępna po stronie serwera.</li>
+    <li>Aplikacja po stronie klienta powinna wyświetlić historię komunikacji z serwerem. Np. wysłana liczba - wynik.</li>
+    <li>Serwer może tylko podpowiadać czy liczba jest za duża, za mała lub potwierdzić poprawność liczby.</li>
+</ol>
+
+<p>Działanie:</p>
+<div id="result"></div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let refreshIntervalId = setInterval(pickANumber, 1000);
+
+    function pickANumber() {
+        let clientNumber = Math.floor(Math.random() * 10000) + 1;
+        axios.post('http://localhost:3000/', {number: clientNumber})
+            .then(function (response) {
+                let printResult = document.getElementById('result');
+                printResult.innerHTML += clientNumber.toString() + " - " + response.data + "<br>";
+
+                if (response.data === 'rowna') {
+                    clearInterval(refreshIntervalId);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>
+</body>
+</html>
