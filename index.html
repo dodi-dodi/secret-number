@@ -1,39 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="secret number">
+    <title>Secret Number</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <style>
+        :root {
+            font-size: 16px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #252B37;
+            color: #C4C4C7;
+        }
+        h1 {
+            color: #00FFF4;
+            font-size: 6.25rem;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        p {
+            color: #0AA6A0;
+            font-size: 1.875em;
+            text-align: center;
+            border-bottom: 1px solid #0AA6A0;
+            font-weight: 700;
+        }
+
+        li {
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 4rem;
+        }
+
+        #result {
+            text-align: center;
+            color: #00FFF4;
+            font-size: 2rem;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Dorota Durlej</h1>
-<h2>Zadanie</h2>
+<div class="container">
+    <h1>Dorota Durlej</h1>
+    <p>Zadanie</p>
 
-<ol>
-    <li>Proszę przygotować aplikację typu klient - serwer. Jako serwer proszę użyć NodeJS.</li>
-    <li>Możliwe technologie do wykorzystania: HTML/CSS/JS (oraz biblioteki i frameworki zbudowane w JS)</li>
-    <li>Przy odpaleniu strony serwer ma wygenerować losową liczbę z zakresu 1 – 10000, zapamiętać ją ale nie podawać
-        klientowi.</li>
-    <li>Aplikacja po stronie klienta (przeglądarki) ma za zadanie odgadnąć liczbę która została wygenerowana i jest
-        dostępna po stronie serwera.</li>
-    <li>Aplikacja po stronie klienta powinna wyświetlić historię komunikacji z serwerem. Np. wysłana liczba - wynik.</li>
-    <li>Serwer może tylko podpowiadać czy liczba jest za duża, za mała lub potwierdzić poprawność liczby.</li>
-</ol>
+    <ol>
+        <li>Proszę przygotować aplikację typu klient - serwer. Jako serwer proszę użyć NodeJS.</li>
+        <li>Możliwe technologie do wykorzystania: HTML/CSS/JS (oraz biblioteki i frameworki zbudowane w JS)</li>
+        <li>Przy odpaleniu strony serwer ma wygenerować losową liczbę z zakresu 1 – 10000, zapamiętać ją ale nie podawać
+            klientowi.
+        </li>
+        <li>Aplikacja po stronie klienta (przeglądarki) ma za zadanie odgadnąć liczbę która została wygenerowana i jest
+            dostępna po stronie serwera.
+        </li>
+        <li>Aplikacja po stronie klienta powinna wyświetlić historię komunikacji z serwerem. Np. wysłana liczba -
+            wynik.
+        </li>
+        <li>Serwer może tylko podpowiadać czy liczba jest za duża, za mała lub potwierdzić poprawność liczby.</li>
+    </ol>
 
-<p>Działanie:</p>
-<div id="result"></div>
+    <p>Działanie:</p>
+    <div id="result"></div>
+</div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    let refreshIntervalId = setInterval(pickANumber, 1000);
+    let refreshIntervalId = setInterval(pickANumber, 500);
 
     function pickANumber() {
         let clientNumber = Math.floor(Math.random() * 10000) + 1;
         axios.post('http://localhost:3000/', {number: clientNumber})
             .then(function (response) {
                 let printResult = document.getElementById('result');
-                printResult.innerHTML += clientNumber.toString() + " - " + response.data + "<br>";
+                printResult.innerHTML = clientNumber.toString() + " - " + response.data + "<br>" + printResult.innerHTML;
 
-                if (response.data === 'rowna') {
+                if (response.data === 'liczba jest poprawna') {
                     clearInterval(refreshIntervalId);
                 }
             })

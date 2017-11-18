@@ -15,11 +15,11 @@ app.get('/',function(req, res){
 
 app.post('/', function(req, res) {
     if (req.body.number > secretNumber){
-        res.send('wieksza');
+        res.send('liczba jest większa');
     } else if (req.body.number < secretNumber) {
-        res.send('mniejsza');
+        res.send('liczba jest mniejsza');
     } else {
-        res.send('rowna');
+        res.send('liczba jest poprawna');
     }
 });
 
