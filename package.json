@@ -2,6 +2,7 @@
   "name": "secret-number",
   "version": "1.0.0",
   "description": "Client tries to guess server's secret number",
+  "private": true,
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

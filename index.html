@@ -85,7 +85,10 @@
         axios.post('http://localhost:3000/', {number: clientNumber})
             .then(function (response) {
                 let printResult = document.getElementById('result');
-                printResult.innerHTML = clientNumber.toString() + " - " + response.data + "<br>" + printResult.innerHTML;
+                let oldResults = printResult.innerHTML;
+                let newResult = clientNumber.toString() + ' - ' + response.data + '<br>';
+
+                printResult.innerHTML = newResult + oldResults;
 
                 if (response.data === 'liczba jest poprawna') {
                     clearInterval(refreshIntervalId);
