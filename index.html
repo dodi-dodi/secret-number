@@ -79,22 +79,29 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    let rangeMin = 1;
+    let rangeMax = 10000;
     let refreshIntervalId = setInterval(pickANumber, 500);
 
     function pickANumber() {
-        let clientNumber = Math.floor(Math.random() * 10000) + 1;
+        let clientNumber = Math.floor(Math.random() * (rangeMax - rangeMin + 1)) + rangeMin;
         axios.post('http://localhost:3000/', {number: clientNumber})
             .then(function (response) {
-                let printResult = document.getElementById('result');
-                let oldResults = printResult.innerHTML;
-                let newResult = clientNumber.toString() + ' - ' + response.data + '<br>';
+                    let printResult = document.getElementById('result');
+                    let oldResults = printResult.innerHTML;
+                    let newResult = clientNumber.toString() + ' - ' + response.data + '<br>';
 
-                printResult.innerHTML = newResult + oldResults;
+                    printResult.innerHTML = newResult + oldResults;
 
-                if (response.data === 'liczba jest poprawna') {
-                    clearInterval(refreshIntervalId);
+                    if (response.data === 'Twoja liczba jest większa') {
+                        rangeMax = clientNumber - 1;
+                    } else if (response.data === 'Twoja liczba jest mniejsza') {
+                        rangeMin = clientNumber + 1;
+                    } else {
+                        clearInterval(refreshIntervalId);
+                    }
                 }
-            })
+            )
             .catch(function (error) {
                 console.log(error);
             });
