@@ -81,7 +81,8 @@
 <script>
     let rangeMin = 1;
     let rangeMax = 10000;
-    let refreshIntervalId = setInterval(pickANumber, 500);
+
+    pickANumber();
 
     function pickANumber() {
         let clientNumber = Math.floor(Math.random() * (rangeMax - rangeMin + 1)) + rangeMin;
@@ -95,10 +96,13 @@
 
                     if (response.data === 'Twoja liczba jest większa') {
                         rangeMax = clientNumber - 1;
-                    } else if (response.data === 'Twoja liczba jest mniejsza') {
+                    }
+
+                    if (response.data === 'Twoja liczba jest mniejsza') {
                         rangeMin = clientNumber + 1;
-                    } else {
-                        clearInterval(refreshIntervalId);
+                    }
+                    if (response.data !== 'Twoja liczba jest poprawna') {
+                        pickANumber();
                     }
                 }
             )
